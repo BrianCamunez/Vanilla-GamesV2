@@ -63,7 +63,23 @@ export const proyectoEditarVista = {
         </div>
     </main>
 
-  `
+  `,
+  script: () => {
+    console.log("vista de edición de proyecto cargada");
+
+    const formulario = document.querySelector("form")
+        //Detectamos su evento submit (enviar)
+        formulario.addEventListener("submit", (event) => {
+            //Comprobamos si el formulario no valida 
+            if (!formulario.checkValidity()) {
+                //Detenemos el evento enviar (submit)
+                event.preventDefault()
+                event.stopPropagation()
+            }
+            //Y añadimos la clase 'was-validate' para que se muestren los mensajes
+            formulario.classList.add('was-validated')
+        });
+  }
 }
 
 export default proyectoEditarVista

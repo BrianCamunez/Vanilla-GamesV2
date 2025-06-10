@@ -347,7 +347,10 @@ export const proyectosVista = {
             </div>
         </main>
 
-  `
+  `,
+  script: () => {
+      // Aquí tu lógica JS para esta vista (o vacío si no necesitas nada)
+    }
 }
 
 export default proyectosVista

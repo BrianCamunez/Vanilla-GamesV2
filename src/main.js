@@ -1,5 +1,7 @@
 import { header } from './components/header'
 import { footer } from './components/footer'
+import { enrutador } from './components/enrutador'
+import { editarPerfil } from './components/editarPerfil'
 
 // Import all of Bootstrap's JS
 import 'bootstrap'
@@ -22,6 +24,11 @@ cargarVista()
 
 //Inyectamos el componente header
 document.querySelector('header').innerHTML = header.template
+header.script()
 
 //Inyectamos el componente footer
 document.querySelector('footer').innerHTML = footer.template
+
+enrutador.observadorRutas()
+// Cargamos la página home
+window.location = '#/home'

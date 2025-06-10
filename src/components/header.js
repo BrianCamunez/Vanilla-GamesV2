@@ -2,8 +2,6 @@ import { ls } from './funciones'
 import { menuRol, menuUsuario } from './menus'
 import { editarPerfil } from './editarPerfil'
 
-ls.setUsuario({ email: 'chafardera@gmial.com', rol: 'registrado' })
-
 export const header = {
   template: // html
     `
@@ -83,6 +81,33 @@ export const header = {
         // menú usuario: No tiene
         break
     }
+
+     editarPerfil.script()
+
+    try {
+      // email y rol
+      document.querySelector('#emailUserMenu').innerHTML = ls.getUsuario().email
+      document.querySelector('#rolUserMenu').innerHTML = ls.getUsuario().rol
+      // para la imagen de avatar (avatar.png si el campo está vacío)
+      const imagen = ls.getUsuario().avatar === '' ? 'images/avatar.svg' : ls.getUsuario().avatar
+      document.querySelector('#avatarMenu').setAttribute('src', imagen)
+    } catch (error) {
+      console.log('El usuario no está registrado y no tiene menú de usuario');
+    }
+
+    // Cerrar sesión
+    // Capturamos clic sobre el item de cerrar sesión
+    document.querySelector('header').addEventListener('click', (e) => {
+      if (e.target.classList.contains('cerrarSesion')) {
+        e.preventDefault()
+        // Borramos el localstorage
+        ls.setUsuario('')
+        // Cargamos la pagina home
+        window.location = '#/home'
+        header.script()
+      }
+    })
+
   }
 }
 

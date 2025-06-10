@@ -1,7 +1,6 @@
 import { header } from './components/header'
 import { footer } from './components/footer'
 import { enrutador } from './components/enrutador'
-import { editarPerfil } from './components/editarPerfil'
 
 // Import all of Bootstrap's JS
 import 'bootstrap'

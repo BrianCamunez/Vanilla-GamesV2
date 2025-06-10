@@ -1,81 +1,76 @@
-export const proyectoNuevoVista = {
-    template: `
-  <main>
-        <div class="container">
-            <h1 class="mt-5">Nuevo proyecto</h1>
-            <div class="d-flex justify-content-end">
-                <bottom class="btn btn-outline-secondary mt-5">
-                    <i class="bi bi-arrow-bar-left" style="font-size: 1em"></i>
-                    Volver
-                </bottom>
-            </div>
+import { proyectos } from "../../bd/datosPrueba.js";
+import { ls } from "../components/funciones.js";
 
-            <div class="row mt-2">
-                <div class="col-12 col-md-4 pt-2 mb-3">
-                    <img src="./images/juego.png" alt="" class="img-fluid" />
-                </div>
-                <div class="col-12 col-md-8">
-                    <!-- Formulario nuevo proyecto -->
-                    <form novalidate action="" class="form">
-
-                        <!-- Nombre proyecto -->
-                        <label class="form-label" for="nombre"><strong>Nombre: </strong></label>
-                        <input required id="nombre" type="text" value="Nombre Autor" class="form-control" />
-                        <div class="invalid-feedback">
-                            El nombre del proyecto no puede estar vacío
-                        </div>
-
-                        <!-- Descripción -->
-                        <label class="form-label mt-2" for="descripcion"><strong>Descripción: </strong></label>
-                        <textarea id="descripcion" class="form-control"
-                            rows="4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, sunt? Recusandae labore at voluptatem tempore incidunt distinctio eaque? Est aspernatur laudantium itaque ullam numquam autem dolor quia amet eum consectetur.</textarea>
-
-                        <!-- Estado -->
-                        <label class="form-label mt-2" for="estado"><strong>Estado: </strong></label>
-                        <select required id="estado" class="form-control">
-                            <option value="estado">estado</option>
-                            <option value="otro estado">otro estado</option>
-                        </select>
-
-                        <!-- Fecha -->
-                        <label class="form-label mt-2" for="fecha"><strong>Fecha: </strong></label>
-                        <input id="fecha" type="date" class="form-control" value="12/12/2023" />
-
-                        <!-- Enlace al proyecto -->
-                        <label class="form-label mt-2" for="enlace"><strong>Enlace: </strong></label>
-                        <input id="enlace" type="url" class="form-control" value="http://enlace.com" />
-
-                        <!-- Repositorio -->
-                        <label class="form-label mt-2" for="repositorio"><strong>Repositorio: </strong></label>
-                        <input id="repositorio" type="text" class="form-control" value="user.github.com/123456" />
-
-                        <!-- Submit -->
-                        <input type="submit" class="btn btn-success mt-3" value="Subir proyecto">
-                    </form>
-                </div>
-            </div>
-
+export default {
+  template: `
+    <div class="container mt-5">
+      <h2>Subir nuevo proyecto</h2>
+      <form id="formProyectoNuevo" novalidate>
+        <div class="mb-3">
+          <label for="nombre" class="form-label">Nombre</label>
+          <input type="text" id="nombre" class="form-control" required />
+          <div class="invalid-feedback">El nombre es obligatorio.</div>
         </div>
-    </main>
-
+        <div class="mb-3">
+          <label for="descripcion" class="form-label">Descripción</label>
+          <textarea id="descripcion" class="form-control" rows="3" required></textarea>
+          <div class="invalid-feedback">La descripción es obligatoria.</div>
+        </div>
+        <div class="mb-3">
+          <label for="imagen" class="form-label">URL Imagen</label>
+          <input type="text" id="imagen" class="form-control" placeholder="Opcional"/>
+        </div>
+        <div class="mb-3">
+          <label for="enlace" class="form-label">Enlace</label>
+          <input type="url" id="enlace" class="form-control" placeholder="https://..." />
+        </div>
+        <div class="mb-3">
+          <label for="repositorio" class="form-label">Repositorio</label>
+          <input type="url" id="repositorio" class="form-control" placeholder="https://..." />
+        </div>
+        <div class="mb-3">
+          <label for="estado" class="form-label">Estado</label>
+          <select id="estado" class="form-select">
+            <option value="activo" selected>Activo</option>
+            <option value="inactivo">Inactivo</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Crear proyecto</button>
+      </form>
+    </div>
   `,
-    script: () => {
-        console.log('vista nuevo proyecto cargada')
+  script: () => {
 
-        const formulario = document.querySelector("form")
-        //Detectamos su evento submit (enviar)
-        formulario.addEventListener("submit", (event) => {
-            //Comprobamos si el formulario no valida 
-            if (!formulario.checkValidity()) {
-                //Detenemos el evento enviar (submit)
-                event.preventDefault()
-                event.stopPropagation()
-            }
-            //Y añadimos la clase 'was-validate' para que se muestren los mensajes
-            formulario.classList.add('was-validated')
-        });
+    // Validación bootstrap
+    // Capturamos el formulario en una variable
+    const formulario = document.querySelector('#formProyectoNuevo')
+    // Detectamos su evento submit (enviar)
+    formulario.addEventListener('submit', (event) => {
+      // Detenemos el evento enviar (submit)
+      event.preventDefault()
+      event.stopPropagation()
+      // Comprobamos si el formulario no valida
+      if (!formulario.checkValidity()) {
+      // Y añadimos la clase 'was-validate' para que se muestren los mensajes
+        formulario.classList.add('was-validated')
+      } else {
+        enviaDatos()
+      }
+    })
 
+    // Función para enviar datos a la base de datos
+    function enviaDatos () {
+      const proyectoEditado = {
+        imagen: document.querySelector('#urlImagen').value,
+        nombre: document.querySelector('#nombreJuego').value,
+        descripcion: document.querySelector('#descripcion').value,
+        fecha: document.querySelector('#fecha').value,
+        estado: document.querySelector('#estado').value,
+        enlace: document.querySelector('#enlace').value,
+        repositorio: document.querySelector('#repositorio').value
+      }
+      alert('Enviando proyecto a la base de datos')
+      console.log('Enviando a la base de datos ', proyectoEditado)
     }
-}
-
-export default proyectoNuevoVista
+  }
+};

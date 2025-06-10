@@ -7,15 +7,19 @@
     "dev": "vite",
     "build": "vite build --emptyOutDir",
     "preview": "vite preview",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist",
+    "test": "mocha"
   },
   "devDependencies": {
+    "chai": "^5.2.0",
     "gh-pages": "^6.3.0",
+    "mocha": "^11.6.0",
     "sass": "^1.89.1",
     "vite": "^5.4.10"
   },
   "dependencies": {
     "@popperjs/core": "^2.11.8",
+    "@supabase/supabase-js": "^2.50.0",
     "bootstrap": "^5.3.6",
     "bootstrap-icons": "^1.13.1",
     "bootswatch": "^5.3.6"

@@ -387,7 +387,7 @@ let misProyectos = false
       if (event.target.tagName === 'TD') {
         console.log('clic en td')
         id = event.target.parentNode.dataset.id
-        window.location = `#/proyectoDetalle/${id}`
+        window.location = `#/proyectoDetalle`
       }
       // Si hacemos clic sobre la imagen de tabla o de vista tarjetas
       if (event.target.classList.contains('verDetalle')) {

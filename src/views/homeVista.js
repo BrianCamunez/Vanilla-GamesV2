@@ -1,3 +1,5 @@
+import { Perfil } from "../../bd/perfil"
+
 export const homeVista = {
     template: `
   <main>
@@ -14,9 +16,18 @@ export const homeVista = {
         </main>
 
   `,
-  script: () => {
-      // Aquí tu lógica JS para esta vista (o vacío si no necesitas nada)
-    }
+    script: async () => {
+  console.log("Vista home cargada");
+
+  try {
+    const resultado = await Perfil.getAll();
+    console.log("Resultado perfiles:", resultado, Array.isArray(resultado), resultado.length)
+
+  } catch (err) {
+    console.error("Error al obtener perfiles:", err);
+  }
+}
+
 }
 
 export default homeVista

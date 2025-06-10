@@ -1,5 +1,6 @@
 import { ls } from './funciones'
 import { menuRol, menuUsuario } from './menus'
+import { editarPerfil } from './editarPerfil'
 
 ls.setUsuario({ email: 'chafardera@gmial.com', rol: 'registrado' })
 
@@ -44,6 +45,7 @@ export const header = {
       </ul>
       <div id="menuRol"></div>
       <div id="menuUsuario"></div>
+      <div id="modal"></div>
     </div>
   </div>
 </nav>
@@ -52,6 +54,7 @@ export const header = {
 
   script: () => {
     console.log('Header cargado')
+    document.querySelector('#modal').innerHTML = editarPerfil.template
 
     const rolUsuario = ls.getUsuario().rol
 

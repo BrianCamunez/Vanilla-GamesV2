@@ -1,16 +1,16 @@
 
 export const header = {
   template: // html
-  `
+    `
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
   <div class="container">
-    <a class="navbar-brand" href="#"
+    <a class="navbar-brand" href="#/home"
       ><img
         src="./images/LogoVanilla.svg"
         alt="Logo Vanilla Games"
         width="30"
         height="24"
-        class="d-inline-block align-text-top"
+        class="d-inline-block align-text-top router-link"
       />
 
       Vanilla Games</a
@@ -29,7 +29,7 @@ export const header = {
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
+          <a class="nav-link active router-link" aria-current="page" href="#/home">Home</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" aria-current="page" href="#">TOP5 Proyectos</a>
@@ -40,17 +40,17 @@ export const header = {
       </ul>
       <ul class="navbar-nav ms-auto me-2 mb-2 mb-lg-0">
         <li class="nav-item">
-          <button class="ms-2 btn btn-success">
-            Iniciar sesión
-            <i class="bi bi-box-arrow-in-right"></i>
-          </button>
-        </li>
+      <a class="ms-2 btn btn-success router-link" href="#/login">
+        Iniciar sesión
+        <i class="bi bi-box-arrow-in-right"></i>
+      </a>
+    </li>
         <li class="nav-item">
-          <button class="ms-2 btn btn-outline-light">
-            Regístrate
-            <i class="bi bi-box-arrow-in-right"></i>
-          </button>
-        </li>
+      <a class="ms-2 btn btn-outline-light router-link" href="#/registro">
+        Regístrate
+        <i class="bi bi-box-arrow-in-right"></i>
+      </a>
+    </li>
       </ul>
     </div>
   </div>

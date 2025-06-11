@@ -1,3 +1,5 @@
+import { P as Perfil } from "./perfil-BceX5_mx.js";
+import "./main-CO28YoMC.js";
 const homeVista = {
   template: `
   <main>
@@ -14,7 +16,14 @@ const homeVista = {
         </main>
 
   `,
-  script: () => {
+  script: async () => {
+    console.log("Vista home cargada");
+    try {
+      const resultado = await Perfil.getAll();
+      console.log("Resultado perfiles:", resultado, Array.isArray(resultado), resultado.length);
+    } catch (err) {
+      console.error("Error al obtener perfiles:", err);
+    }
   }
 };
 export {

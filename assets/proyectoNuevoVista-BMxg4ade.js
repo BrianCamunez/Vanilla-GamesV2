@@ -1,3 +1,5 @@
+import { P as Proyecto } from "./proyecto-CExYoP4h.js";
+import { l as ls } from "./main-CO28YoMC.js";
 const proyectoNuevoVista = {
   template: `
     <div class="container mt-5">
@@ -37,29 +39,44 @@ const proyectoNuevoVista = {
     </div>
   `,
   script: () => {
-    const formulario = document.querySelector("#formProyectoNuevo");
-    formulario.addEventListener("submit", (event) => {
-      event.preventDefault();
-      event.stopPropagation();
-      if (!formulario.checkValidity()) {
-        formulario.classList.add("was-validated");
-      } else {
-        enviaDatos();
+    const form = document.getElementById("formProyectoNuevo");
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (!form.checkValidity()) {
+        form.classList.add("was-validated");
+        return;
+      }
+      const usuario = ls.getUsuario();
+      console.log("Usuario desde localStorage:", usuario);
+      if (!usuario || !usuario.user_id) {
+        alert("Debe iniciar sesión para crear un proyecto.");
+        window.location = "#/login";
+        return;
+      }
+      const nombre = document.getElementById("nombre").value.trim();
+      const descripcion = document.getElementById("descripcion").value.trim();
+      const imagen = document.getElementById("imagen").value.trim() || "images/imagenVacia.png";
+      const enlace = document.getElementById("enlace").value.trim();
+      const repositorio = document.getElementById("repositorio").value.trim();
+      const estado = document.getElementById("estado").value;
+      const nuevoProyecto = {
+        user_id: usuario.user_id,
+        nombre,
+        descripcion,
+        imagen,
+        enlace,
+        repositorio,
+        estado
+      };
+      try {
+        await Proyecto.create(nuevoProyecto);
+        alert("Proyecto creado con éxito!");
+        window.location = "#/proyectos";
+      } catch (error) {
+        alert("Error al crear el proyecto: " + error.message);
       }
     });
-    function enviaDatos() {
-      const proyectoEditado = {
-        imagen: document.querySelector("#urlImagen").value,
-        nombre: document.querySelector("#nombreJuego").value,
-        descripcion: document.querySelector("#descripcion").value,
-        fecha: document.querySelector("#fecha").value,
-        estado: document.querySelector("#estado").value,
-        enlace: document.querySelector("#enlace").value,
-        repositorio: document.querySelector("#repositorio").value
-      };
-      alert("Enviando proyecto a la base de datos");
-      console.log("Enviando a la base de datos ", proyectoEditado);
-    }
   }
 };
 export {

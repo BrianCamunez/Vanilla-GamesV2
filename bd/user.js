@@ -14,6 +14,7 @@ export class User {
 
   static async login(userData) {
     const { data, error } = await supabase.auth.signInWithPassword(userData);
+    console.log("data", data);
     if (error) throw new Error(error.message);
     return new User(data.user.id, data.user.email);
   }

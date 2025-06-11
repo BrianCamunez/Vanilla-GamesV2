@@ -1,4 +1,4 @@
-import { proyectos } from "../../bd/datosPrueba.js";
+import { Proyecto } from "../../bd/proyecto.js";
 import { ls } from "../components/funciones.js";
 
 export default {
@@ -40,37 +40,50 @@ export default {
     </div>
   `,
   script: () => {
+    const form = document.getElementById("formProyectoNuevo");
 
-    // Validación bootstrap
-    // Capturamos el formulario en una variable
-    const formulario = document.querySelector('#formProyectoNuevo')
-    // Detectamos su evento submit (enviar)
-    formulario.addEventListener('submit', (event) => {
-      // Detenemos el evento enviar (submit)
-      event.preventDefault()
-      event.stopPropagation()
-      // Comprobamos si el formulario no valida
-      if (!formulario.checkValidity()) {
-      // Y añadimos la clase 'was-validate' para que se muestren los mensajes
-        formulario.classList.add('was-validated')
-      } else {
-        enviaDatos()
-      }
-    })
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      e.stopPropagation();
 
-    // Función para enviar datos a la base de datos
-    function enviaDatos () {
-      const proyectoEditado = {
-        imagen: document.querySelector('#urlImagen').value,
-        nombre: document.querySelector('#nombreJuego').value,
-        descripcion: document.querySelector('#descripcion').value,
-        fecha: document.querySelector('#fecha').value,
-        estado: document.querySelector('#estado').value,
-        enlace: document.querySelector('#enlace').value,
-        repositorio: document.querySelector('#repositorio').value
+      if (!form.checkValidity()) {
+        form.classList.add("was-validated");
+        return;
       }
-      alert('Enviando proyecto a la base de datos')
-      console.log('Enviando a la base de datos ', proyectoEditado)
-    }
-  }
+
+      const usuario = ls.getUsuario();
+      console.log("Usuario desde localStorage:", usuario);  // <-- Aquí chequeamos qué usuario hay
+
+      if (!usuario || !usuario.user_id) {
+        alert("Debe iniciar sesión para crear un proyecto.");
+        window.location = "#/login";
+        return;
+      }
+
+      const nombre = document.getElementById("nombre").value.trim();
+      const descripcion = document.getElementById("descripcion").value.trim();
+      const imagen = document.getElementById("imagen").value.trim() || "images/imagenVacia.png";
+      const enlace = document.getElementById("enlace").value.trim();
+      const repositorio = document.getElementById("repositorio").value.trim();
+      const estado = document.getElementById("estado").value;
+
+      const nuevoProyecto = {
+        user_id: usuario.user_id,
+        nombre,
+        descripcion,
+        imagen,
+        enlace,
+        repositorio,
+        estado,
+      };
+
+      try {
+        await Proyecto.create(nuevoProyecto);
+        alert("Proyecto creado con éxito!");
+        window.location = "#/proyectos";
+      } catch (error) {
+        alert("Error al crear el proyecto: " + error.message);
+      }
+    });
+  },
 };

@@ -1,120 +1,89 @@
-import { proyectos } from '../../bd/datosPrueba'
-import { ls } from '../components/funciones'
+import { Proyecto } from "../../bd/proyecto.js";
+import { User } from "../../bd/user.js";
+import { ls } from "../components/funciones.js";
 
 export default {
-  template: // html
-  `
+  template: `
   <div class="container">
-  <h1 class="mt-5">Proyectos</h1>
-  <div class="row mt-5">
-    <div class="col-12">
-      <!--nav-tabs-->
-      <ul class="nav nav-tabs">
-        <!--Etiqueta Todos los proyectos-->
-        <li class="nav-item w-50">
-          <button 
-            class="selectorFicha fichaProyectos nav-link w-100 active"
-          >
-            Todos los proyectos
-          </button>
-        </li>
-        <!--Etiqueta Mis proyectos-->
-        <li id="pestanyaMisProyectos" class="nav-item w-50">
-          <button 
-            class="selectorFicha fichaMisProyectos nav-link w-100"
-          >
-            Mis proyectos
-          </button>
-        </li>
-      </ul>
-    </div>
-  </div>
-  <div class="border border-top-0 p-3">
-    <div class="row">
-      <div class="col-12 col-sm-4 mb-3">
-      <!-- Boton para subir proyectos -->
-        <a id="botonSubirProyecto" href="#/proyectoNuevo" class="btn btn-primary w-100 router-link">Subir proyecto</a>
+    <h1 class="mt-5">Proyectos</h1>
+    <div class="row mt-5">
+      <div class="col-12">
+        <ul class="nav nav-tabs">
+          <li class="nav-item w-50">
+            <button class="selectorFicha fichaProyectos nav-link w-100 active">
+              Todos los proyectos
+            </button>
+          </li>
+          <li id="pestanyaMisProyectos" class="nav-item w-50">
+            <button class="selectorFicha fichaMisProyectos nav-link w-100">
+              Mis proyectos
+            </button>
+          </li>
+        </ul>
       </div>
-      <div class="d-flex col-12 col-sm-8 mb-3">
-        <!-- Botones para alternar entre vista de tabla o de tarjetas -->
-        <button class="vistaTabla btn btn-secondary me-2 bi bi-list">
-        </button>
-        <button class="vistaTarjetas btn btn-secondary me-2 bi bi-grid-3x3-gap ">
-        </button>
-        <!-- Buscador -->
-        <div class="input-group flex-nowrap">
-          <span class="input-group-text" id="addon-wrapping"
-            ><i class="bi bi-search"></i
-          ></span>
-          <input
-            id="inputBusqueda"
-            type="text"
-            class="form-control"
-            placeholder="Buscador"
-            aria-label="Username"
-            aria-describedby="addon-wrapping"
-          />
-          <span class="input-group-text" id="addon-wrapping"
-            ><i id="borrarBuscador" class="bi bi-x"></i
-          ></span>
+    </div>
+    <div class="border border-top-0 p-3">
+      <div class="row">
+        <div class="col-12 col-sm-4 mb-3">
+          <a id="botonSubirProyecto" href="#/proyectoNuevo" class="btn btn-primary w-100 router-link">Subir proyecto</a>
+        </div>
+        <div class="d-flex col-12 col-sm-8 mb-3">
+          <button class="btn btn-secondary me-2 bi bi-grid-3x3-gap vistaTabla btn-success"></button>
+          <button class="btn btn-secondary me-2 bi bi-list vistaTarjetas"></button>
+          <div class="input-group flex-nowrap">
+            <span class="input-group-text" id="addon-wrapping"><i class="bi bi-search"></i></span>
+            <input id="inputBusqueda" type="text" class="form-control" placeholder="Buscador" aria-label="Username" aria-describedby="addon-wrapping"/>
+            <span class="input-group-text" id="borrarBuscador"><i class="bi bi-x"></i></span>
+          </div>
         </div>
       </div>
-    </div>
-    
-    <!-- Tabla de proyectos -->
-    <div id="tabTabla" class="col-12 d-none d-xl-block" style="overflow-x: auto">
-      <table
-        class="table table-hover align-middle mt-3"
-        style="min-width: 1000px"
-      >
-        <thead>
-          <tr>
-            <th></th>
-            <th>
-              Nombre <span><i class="bi bi-caret-down"></i></span>
-            </th>
-            <th>
-              Descripción <span><i class="bi bi-caret-up"></i></span>
-            </th>
-            <th>
-              Enlace <span><i class="bi bi-caret-up"></i></span>
-            </th>
-            <th>Repositorio</th>
-            <th>
-              Autor <span><i class="bi bi-caret-up"></i></span>
-            </th>
-            <th>
-              Fecha <span><i class="bi bi-caret-up"></i></span>
-            </th>
-            <th>
-              Estado <span><i class="bi bi-caret-up"></i></span>
-            </th>
-            <th></th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody id="tbodyProyectos">
-          <!-- Aqui van los datos generados por la lógica -->
-          <p>No tienes proyectos</p>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- Panel de tarjetas -->
-    <div id="tabTarjetas" class="d-xl-none row">
-      <!-- Aqui van los datos generados por la lógica -->
-      <p>No tienes proyectos</p>
+      <div id="tabTabla" class="col-12 d-block" style="overflow-x: auto">
+        <table class="table table-hover align-middle mt-3" style="min-width: 1000px">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Nombre <span><i class="bi bi-caret-down"></i></span></th>
+              <th>Descripción <span><i class="bi bi-caret-up"></i></span></th>
+              <th>Enlace <span><i class="bi bi-caret-up"></i></span></th>
+              <th>Repositorio</th>
+              <th>Autor <span><i class="bi bi-caret-up"></i></span></th>
+              <th>Fecha <span><i class="bi bi-caret-up"></i></span></th>
+              <th>Estado <span><i class="bi bi-caret-up"></i></span></th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="tbodyProyectos"></tbody>
+        </table>
+      </div>
+      <div id="tabTarjetas" class="d-none row"></div>
     </div>
   </div>
-</div>
   `,
-  script: () => {
+ script: async () => {
     // **** AQUI DEBEMOS CAPTURAR LOS PROYECTOS DE LA BASE DE DATOS ****
-let misProyectos = false
-    // Capturamos proyectos y guardamos en variable para poder ser filtrada
-    const datos = proyectos
 
+    // Capturamos proyectos y guardamos en variable para poder ser filtrada
+    const datosBd = await Proyecto.getAll()
+    console.log('datos', datosBd)
+    const user = await User.getUser()
+    const userId = user.id
+    console.log('userId',userId);
+    const datos = datosBd.map((dato) => {
+      const fecha = dato.created_at
+      const nuevaFecha = fecha.split('T')[0]
+      const fechaFormateada = `${nuevaFecha.split('-')[2]}/${nuevaFecha.split('-')[1]}/${nuevaFecha.split('-')[0]}`
+      const datoFormateado = {
+        ...dato,
+        created_at: fechaFormateada
+      }
+      return datoFormateado
+    })
+
+    let misProyectos = false
+    // Capturamos los datos del usuario logueado
     const usuario = ls.getUsuario()
+    console.log(usuario);
 
     // ####################################################################
     // *** FUNCIÓN PARA PINTAR TABLA A PARTIR DE ARRAY datos ***
@@ -123,7 +92,7 @@ let misProyectos = false
     const pintaTabla = (proyectosFiltrados) => {
       // Si tenemos seleccionada la opción 'mis proyectos' filtramos los proyectos por user_id
       if (misProyectos) {
-        proyectosFiltrados = datos.filter((proyecto) => proyecto.user_id === usuario.user_id)
+        proyectosFiltrados = proyectosFiltrados.filter((proyecto) => proyecto.user_id === userId)
       }
 
       let tbodyProyectos = ''
@@ -131,9 +100,9 @@ let misProyectos = false
       proyectosFiltrados.forEach(proyecto => {
         // Generamos botones dependiendo de si el proyecto ha sido creado por el usuario logueado
         let botones = ''
-        if (usuario.user_id === proyecto.user_id) {
+        if (userId === proyecto.user_id) {
           botones =
-          `
+            `
           <td><a
             data-id = ${proyecto.id}
             class="botonAdmin botonEditar d-none d-sm-inline btn btn-sm btn-outline-primary bi bi-pencil"
@@ -146,7 +115,7 @@ let misProyectos = false
         }
         // sumamos un tr con los datos del proyecto de la iteración
         tbodyProyectos += // html
-        `
+          `
         <tr data-id="${proyecto.id}" class="verDetalle">
           <td>
             <div class="containerImagen">
@@ -183,8 +152,8 @@ let misProyectos = false
     const pintaTarjetas = (proyectosFiltrados) => {
       // Si tenemos seleccionada la opción 'mis proyectos' filtramos los proyectos por user_id
       if (misProyectos) {
-        proyectosFiltrados = datos.filter((proyecto) => proyecto.user_id === usuario.user_id)
-        console.log(proyectos)
+        proyectosFiltrados = proyectosFiltrados.filter((proyecto) => proyecto.user_id === userId)
+        console.log('proyectosUserId', proyectosFiltrados)
       }
       let tarjetasProyectos = ''
       // Iteramos para cada proyecto del array 'proyectosFiltrados'
@@ -193,7 +162,7 @@ let misProyectos = false
         let botones = ''
         if (usuario.user_id === proyecto.user_id) {
           botones =
-          `
+            `
           <a
             data-id = ${proyecto.id}
             class="botonAdmin botonEditar d-none d-sm-inline btn btn-sm btn-outline-primary bi bi-pencil"
@@ -206,7 +175,7 @@ let misProyectos = false
         }
         // sumamos un tr con los datos del proyecto
         tarjetasProyectos += // html
-        `
+          `
         <!-- tarjeta  -->
         <div class="col-12 col-lg-6">
           <div class="card mb-3">
@@ -338,8 +307,6 @@ let misProyectos = false
     // Vista 'Todos los proyectos' / 'Mis proyectos'
     // ####################################################################
 
-    // Definimos que por defecto se muestran 'mis proyectos'
-    
     // *** Detectamos si se cambia de proyectos a mis proyectos al hacer click en las pestañas ***
     document.querySelector('.nav-tabs').addEventListener('click', (event) => {
       // Si click en 'Mis proyectos' cambiamos pestaña activa
@@ -387,7 +354,7 @@ let misProyectos = false
       if (event.target.tagName === 'TD') {
         console.log('clic en td')
         id = event.target.parentNode.dataset.id
-        window.location = `#/proyectoDetalle`
+        window.location = `#/proyectoDetalle/${id}`
       }
       // Si hacemos clic sobre la imagen de tabla o de vista tarjetas
       if (event.target.classList.contains('verDetalle')) {
@@ -400,12 +367,9 @@ let misProyectos = false
     // Mostrar/ocultar botón 'subir proyecto'
     // ####################################################################
 
-    // Capturamos los datos del usuario logueado
-    
     // Ocultamos el botón de subir proyecto si el rol es registrado
     if (usuario.rol === 'registrado') {
       document.querySelector('#botonSubirProyecto').classList.add('disabled')
     }
   }
-}
-
+};

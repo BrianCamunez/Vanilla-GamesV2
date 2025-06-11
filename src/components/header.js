@@ -1,6 +1,7 @@
 import { ls } from './funciones'
 import { menuRol, menuUsuario } from './menus'
 import { editarPerfil } from './editarPerfil'
+import { User } from '../../bd/user.js'
 
 export const header = {
   template: // html
@@ -57,13 +58,13 @@ export const header = {
     const rolUsuario = ls.getUsuario().rol
 
     switch (rolUsuario) {
-      case 'registrado':
+      case 'alumno':
         // menú rol
         document.querySelector('#menuRol').innerHTML = menuRol.templateRegistrado
         // menú usuario
         document.querySelector('#menuUsuario').innerHTML = menuUsuario.templateRegistrado
         break
-      case 'desarrollador':
+      case 'profesor':
         // menú rol
         document.querySelector('#menuRol').innerHTML = menuRol.templateDesarrollador
         // menú usuario
@@ -89,7 +90,7 @@ export const header = {
       document.querySelector('#emailUserMenu').innerHTML = ls.getUsuario().email
       document.querySelector('#rolUserMenu').innerHTML = ls.getUsuario().rol
       // para la imagen de avatar (avatar.png si el campo está vacío)
-      const imagen = ls.getUsuario().avatar === '' ? 'images/avatar.svg' : ls.getUsuario().avatar
+      const imagen = ls.getUsuario().avatar === '' ? './images/avatar-15.svg' : ls.getUsuario().avatar
       document.querySelector('#avatarMenu').setAttribute('src', imagen)
     } catch (error) {
       console.log('El usuario no está registrado y no tiene menú de usuario');
@@ -100,6 +101,9 @@ export const header = {
     document.querySelector('header').addEventListener('click', (e) => {
       if (e.target.classList.contains('cerrarSesion')) {
         e.preventDefault()
+
+        // Cerramos sesión en la bd
+        User.logout()
         // Borramos el localstorage
         ls.setUsuario('')
         // Cargamos la pagina home

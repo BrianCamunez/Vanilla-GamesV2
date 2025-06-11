@@ -20,7 +20,7 @@ class Perfil {
   }
 
   static async getById(id) {
-    const { data, error } = await supabase.from("perfiles").select("*").eq("id", id).single();
+    const { data, error } = await supabase.from("perfiles").select("*").eq("user_id", id).single();
     if (error) throw new Error(error.message);
     return new Perfil(data);
   }
